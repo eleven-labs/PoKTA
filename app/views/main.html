@@ -3,22 +3,65 @@ hello
 <script type="text/javascript">
 
 
+    var game = new Phaser.Game(640, 640, Phaser.AUTO, '', {preload: preload, create: create});
+    var matrice = new Array();
+    var size = 40; //Taille de la matrice 40 * 16 = 640
+    var block_size = 16;
+    var platforms;
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+    // Load asset and mesh
+    function preload() {
 
-        function preload () {
+        game.load.image('logo', '../images/yeoman.png');
+        game.load.image('wall', '../images/wall.png');
 
-            game.load.image('logo', '../images/yeoman.png');
+    }
+
+    function create() {
+       // game.physics.startSystem(Phaser.Physics.ARCADE);
+        createMatrice();
+
+        createMap();
+
+
+    }
+
+
+
+    function createMatrice() {
+
+
+        var matrice = new Array();
+        matrice.length = parseInt(size);
+        // On def les données presente de la matrice (tour/route/enemie present etc....)
+        var blank_slot = {road: false, free: true};
+
+        //On créé la matrice 2D (map)
+        for (var i = 0; i < matrice.length; i++) {
+            for (var j = 0; j < matrice.length; j++) {
+                if (!matrice[i])
+                    matrice[i] = new Array();
+                matrice[i][j] = blank_slot;
+            }
+        }
+
+        console.log("Matrice créée");
+    }
+
+
+    function createMap() {
+        platforms = game.add.group();
+
+
+
+        // map bidon, un simple trait
+        for (var i = 0; i < size; i++) {
+            var wall = platforms.create(i* block_size, 20 * block_size, 'wall');
+            wall.body.immovable = true;
 
         }
 
-        function create () {
 
-            var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
-            logo.anchor.setTo(0.5, 0.5);
-
-        }
-
-
+    }
 
 </script>
